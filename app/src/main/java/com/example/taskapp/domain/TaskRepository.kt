@@ -4,10 +4,19 @@ import java.time.LocalDate
 
 object TaskRepository {
     val mockTasks: List<Task> = listOf(
-        Task(1, "osta maitoa", "laktoositon", 2, LocalDate.now().plusDays(1), false),
-        Task(2, "", "", 3, LocalDate.now().plusDays(2), false),
-        Task(3, "tee viikko 1 tehtävä", "kotlin", 3, LocalDate.now().plusDays(3), true),
-        Task(4, "lenkki", "30min", 1, LocalDate.now().plusDays(1), true),
-        Task(5, "siivoa", "imuroi", 2, LocalDate.now().plusDays(5), false)
+        Task(id = 1, title = "osta maitoa", description = "laktoositon", dueDate = LocalDate.now().plusDays(1), createdAt = LocalDate.now(), done = false
+        ),
+        Task(
+            id = 2, title = "tee kotitehtävä", description = "matematiikka", dueDate = LocalDate.now().plusDays(2), createdAt = LocalDate.now(), done = false
+        ),
+        Task(
+            id = 3, title = "tee viikko 1 tehtävä", description = "kotlin", dueDate = LocalDate.now().plusDays(3), createdAt = LocalDate.now(), done = true
+        ),
+        Task(
+            id = 4, title = "lenkki", description = "30min", dueDate = LocalDate.now().plusDays(1), createdAt = LocalDate.now(), done = true
+        ),
+        Task(
+            id = 5, title = "siivoa", description = "imuroi", dueDate = LocalDate.now().plusDays(5), createdAt = LocalDate.now(), done = false
+        )
     )
 }
