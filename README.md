@@ -1,20 +1,40 @@
-Task App – README
-Week1 – Perus Task-sovellus (Jetpack Compose)
+# Task App
 
-Week1-tehtävässä toteutettiin yksinkertainen Task-sovellus Jetpack Compose -teknologialla.
-Sovelluksessa luotiin Task-data class, mock-dataa sekä Kotlin-funktiot tehtävien käsittelyyn.
+## Week1 – Perustoiminnot (Compose + Kotlin)
 
-Sovellus näyttää tehtävälistan ja mahdollistaa tehtävien lisäämisen, tilan vaihtamisen, suodattamisen ja järjestämisen.
-Käyttöliittymä on toteutettu Composella ilman XML:ää.
+### Toteutetut ominaisuudet
+- Task-data class ja mock-data
+- Kotlin-funktiot:
+  - tehtävän lisääminen (add)
+  - tilan vaihtaminen (toggle)
+  - suodatus (filter)
+  - järjestäminen (sort)
+- Jetpack Compose -käyttöliittymä
+- Tehtävälista ja toimintanapit
+
+### Käyttö
+- Add task → lisää uuden tehtävän
+- Done / Undo → vaihtaa tehtävän tilan
+- Done / Not done / All → suodattaa listan
+- Sort by date → järjestää tehtävät
 
 Sovellus ajetaan Android Studiossa emulaattorilla tai Android-laitteella.
 
-Week2 – Tilanhallinta ja ViewModel
+---
 
-Week2-tehtävässä sovellusta laajennettiin käyttämään ViewModelia.
-Compose päivittää käyttöliittymän automaattisesti, kun state muuttuu.
+## Week2 – ViewModel ja tilanhallinta
 
-Pelkkä remember sopii vain yksinkertaiseen paikalliseen tilaan, mutta tila voi hävitä esimerkiksi ruudun käännössä ja logiikka sekoittuu helposti UI:hin.
+### Toteutetut ominaisuudet
+- TaskViewModel-luokka
+- State siirretty Composesta ViewModeliin
+- LazyColumn tehtävälistalle
+- Uuden tehtävän lisäys TextFieldien avulla
+- Checkbox ja Delete-nappi tehtäville
+- Suodatus ja järjestäminen ViewModelin kautta
+- Scrollattava näkymä
 
-ViewModel säilyttää tilan näkymän elinkaaren ajan ja erottaa logiikan käyttöliittymästä.
-Tämä tekee koodista selkeämmän, helpommin laajennettavan ja paremmin testattavan.
+### ViewModel vs remember
+- remember säilyttää tilan vain Composable-funktion sisällä
+- ViewModel säilyttää tilan näkymän elinkaaren ajan
+- logiikka on erillään käyttöliittymästä
+- koodi on selkeämpi ja helpommin laajennettavissa
