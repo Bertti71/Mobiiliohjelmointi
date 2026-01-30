@@ -1,4 +1,4 @@
-package com.example.taskapp.domain
+package com.example.taskapp.model
 
 import java.time.LocalDate
 
@@ -7,6 +7,5 @@ data class Task(
     val title: String,
     val description: String,
     val dueDate: LocalDate,
-    val createdAt: LocalDate,
-    val done: Boolean
+    val done: Boolean = false
 )

@@ -1,62 +1,58 @@
 package com.example.taskapp.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.taskapp.domain.Task
-import com.example.taskapp.domain.TaskRepository
+import com.example.taskapp.model.Task
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.time.LocalDate
 
 class TaskViewModel : ViewModel() {
 
-    var tasks by mutableStateOf(listOf<Task>())
-        private set
+    private val _tasks = MutableStateFlow<List<Task>>(emptyList())
+    val tasks: StateFlow<List<Task>> = _tasks
 
-    private var allTasks: List<Task> = emptyList()
     private var nextId = 1
 
     init {
-        allTasks = TaskRepository.mockTasks
-        tasks = allTasks
-        nextId = (allTasks.maxOfOrNull { it.id } ?: 0) + 1
+        // Mock-data: jotain näkyy heti käynnistyksessä
+        _tasks.value = listOf(
+            Task(nextId++, "Osta maitoa", "Laktoositon", LocalDate.now().plusDays(1)),
+            Task(nextId++, "Tee viikko 3", "MVVM", LocalDate.now().plusDays(2)),
+            Task(nextId++, "Lenkki", "30 min", LocalDate.now().plusDays(3), done = true)
+        )
     }
 
-    fun addTaskFromInputs(title: String, description: String, dueDateStr: String): Boolean {
+    fun addTask(title: String, description: String, dueDate: LocalDate) {
         val t = title.trim()
-        if (t.isEmpty()) return false
+        if (t.isEmpty()) return
 
-        val due = try { LocalDate.parse(dueDateStr)
-        } catch (e: Exception) {
-            return false
-        }
-
-        val newTask = Task(id = nextId++, title = t, description = description, dueDate = due, createdAt = LocalDate.now(), done = false
+        val newTask = Task(
+            id = nextId++,
+            title = t,
+            description = description.trim(),
+            dueDate = dueDate,
+            done = false
         )
-
-        allTasks = allTasks + newTask
-        tasks = allTasks
-        return true
+        _tasks.value = _tasks.value + newTask
     }
 
     fun toggleDone(id: Int) {
-        allTasks = allTasks.map { task ->
-            if (task.id == id) task.copy(done = !task.done)
-            else task
+        _tasks.value = _tasks.value.map { task ->
+            if (task.id == id) task.copy(done = !task.done) else task
         }
-        tasks = allTasks
     }
 
-    fun removeTask(id: Int) { allTasks = allTasks.filterNot { it.id == id }
-        tasks = allTasks
+    fun removeTask(id: Int) {
+        _tasks.value = _tasks.value.filterNot { it.id == id }
     }
 
-    fun filterByDone(done: Boolean) { tasks = allTasks.filter { it.done == done }
+    fun updateTask(updated: Task) {
+        _tasks.value = _tasks.value.map { task ->
+            if (task.id == updated.id) updated else task
+        }
     }
 
-    fun showAll() { tasks = allTasks
-    }
-
-    fun sortByDueDate() { tasks = tasks.sortedBy { it.dueDate }
+    fun sortByDueDate() {
+        _tasks.value = _tasks.value.sortedBy { it.dueDate }
     }
 }

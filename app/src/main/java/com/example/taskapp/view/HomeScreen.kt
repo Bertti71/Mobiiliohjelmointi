@@ -1,4 +1,4 @@
-package com.example.taskapp.ui.theme
+package com.example.taskapp.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,34 +15,35 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.taskapp.domain.Task
+import com.example.taskapp.model.Task
 import com.example.taskapp.viewmodel.TaskViewModel
+import java.time.LocalDate
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     vm: TaskViewModel = viewModel()
 ) {
+    val tasks by vm.tasks.collectAsState()
+
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var dueDate by remember { mutableStateOf("") } // YYYY-MM-DD
+    var dueDateText by remember { mutableStateOf("") } // YYYY-MM-DD
     var error by remember { mutableStateOf<String?>(null) }
+
+    var selectedTask by remember { mutableStateOf<Task?>(null) }
 
     LazyColumn(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            Text("Task App (Week 2)", style = MaterialTheme.typography.headlineMedium)
+            Text("Task App (Week 3)", style = MaterialTheme.typography.headlineMedium)
             Spacer(Modifier.height(12.dp))
         }
 
@@ -68,48 +69,31 @@ fun HomeScreen(
         item {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = dueDate,
-                onValueChange = { dueDate = it },
+                value = dueDateText,
+                onValueChange = { dueDateText = it },
                 label = { Text("Due date (YYYY-MM-DD)") },
                 singleLine = true
             )
         }
 
         item {
-            if (error != null) {
-                Text(error!!, color = MaterialTheme.colorScheme.error)
-            }
+            if (error != null) Text(error!!)
         }
 
         item {
             Button(onClick = {
-                val ok = vm.addTaskFromInputs(title, description, dueDate)
-                if (!ok) {
-                    error = "Syötä title + due date muodossa YYYY-MM-DD (esim. 2026-01-25)"
+                val due = try { LocalDate.parse(dueDateText.trim()) } catch (e: Exception) { null }
+                if (title.trim().isEmpty() || due == null) {
+                    error = "Syötä title ja päivämäärä muodossa YYYY-MM-DD"
                     return@Button
                 }
-                error = null
+                vm.addTask(title, description, due)
                 title = ""
                 description = ""
-                dueDate = ""
+                dueDateText = ""
+                error = null
             }) {
                 Text("Add task")
-            }
-        }
-
-        item { Spacer(Modifier.height(8.dp)) }
-
-        item {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { vm.filterByDone(true) }) { Text("Done") }
-                Button(onClick = { vm.filterByDone(false) }) { Text("Not done") }
-                Button(onClick = { vm.showAll() }) { Text("All") }
-            }
-        }
-
-        item {
-            Button(onClick = { vm.sortByDueDate() }) {
-                Text("Sort by date")
             }
         }
 
@@ -118,43 +102,49 @@ fun HomeScreen(
             HorizontalDivider()
         }
 
-        items(vm.tasks, key = { it.id }) { task ->
-            TaskRow(
-                task = task,
-                onToggle = { vm.toggleDone(task.id) },
-                onDelete = { vm.removeTask(task.id) }
-            )
+        // List
+        items(tasks, key = { it.id }) { task ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Checkbox(
+                    checked = task.done,
+                    onCheckedChange = { vm.toggleDone(task.id) }
+                )
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(task.title, style = MaterialTheme.typography.titleMedium)
+                    if (task.description.isNotBlank()) {
+                        Text(task.description, style = MaterialTheme.typography.bodySmall)
+                    }
+                    Text("due: ${task.dueDate}", style = MaterialTheme.typography.bodySmall)
+                }
+
+                Button(onClick = { selectedTask = task }) {
+                    Text("Edit")
+                }
+            }
+
             HorizontalDivider()
         }
     }
-}
 
-@Composable
-private fun TaskRow(
-    task: Task,
-    onToggle: () -> Unit,
-    onDelete: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Checkbox(
-            checked = task.done,
-            onCheckedChange = { onToggle() }
-        )
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(task.title, style = MaterialTheme.typography.titleMedium)
-            if (task.description.isNotBlank()) {
-                Text(task.description, style = MaterialTheme.typography.bodySmall)
+    selectedTask?.let { task ->
+        DetailDialog(
+            task = task,
+            onDismiss = { selectedTask = null },
+            onSave = { updated ->
+                vm.updateTask(updated)
+                selectedTask = null
+            },
+            onDelete = {
+                vm.removeTask(task.id)
+                selectedTask = null
             }
-            Text("due: ${task.dueDate}", style = MaterialTheme.typography.bodySmall)
-        }
-
-        Button(onClick = onDelete) { Text("Delete") }
+        )
     }
 }
