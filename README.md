@@ -44,19 +44,19 @@ Sovellus ajetaan Android Studiossa emulaattorilla tai Android-laitteella.
 ## Week3 - 
 
 ###Toteutetut ominaisuudet
--MVVM-rakenne:
--Model: Task-dataluokka
--View: HomeScreen ja DetailDialog (Compose UI)
--ViewModel: TaskViewModel
--StateFlow tehtävälistan tilanhallintaan
--Reaktiivinen UI (collectAsState())
--Tehtävien muokkaus ja poisto DetailDialogissa
--Selkeä kerrosrakenne: model, view, viewmodel
+- MVVM-rakenne:
+- Model: Task-dataluokka
+- View: HomeScreen ja DetailDialog (Compose UI)
+- ViewModel: TaskViewModel
+- StateFlow tehtävälistan tilanhallintaan
+- Reaktiivinen UI (collectAsState())
+- Tehtävien muokkaus ja poisto DetailDialogissa
+- Selkeä kerrosrakenne: model, view, viewmodel
 
 ###MVVM ja StateFlow
--ViewModel hallitsee sovelluksen tilaa ja liiketoimintalogiikkaa
--UI kuuntelee ViewModelin tilaa ja päivittyy automaattisesti
--StateFlow välittää tilan muutokset käyttöliittymälle
+- ViewModel hallitsee sovelluksen tilaa ja liiketoimintalogiikkaa
+- UI kuuntelee ViewModelin tilaa ja päivittyy automaattisesti
+- StateFlow välittää tilan muutokset käyttöliittymälle
 
 MVVM on malli, jossa data ja logiikka (Model) pidetään erillään käyttöliittymästä (View), ja ViewModel hoitaa niiden välisen yhteyden. 
 Compose-sovelluksissa se tekee koodista selkeämpää ja helpommin ylläpidettävää, koska UI vain näyttää ViewModelin tilan.
