@@ -12,17 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    // Accent / highlight
     primary = AccentBlue,
     secondary = AccentBlueLight,
     tertiary = AccentBlue,
 
-    // Dark greys
     background = DarkBackground,
     surface = DarkSurface,
     surfaceVariant = DarkSurfaceVariant,
 
-    // Text / content colors
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,
@@ -33,7 +30,6 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    // Accent / highlight
     primary = AccentBlue,
     secondary = AccentBlueLight,
     tertiary = AccentBlue,
@@ -54,7 +50,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun TaskAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // IMPORTANT: keep false to use your custom colors
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

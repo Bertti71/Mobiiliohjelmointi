@@ -14,7 +14,6 @@ class TaskViewModel : ViewModel() {
     private var nextId = 1
 
     init {
-        // Mock-data: jotain näkyy heti käynnistyksessä
         _tasks.value = listOf(
             Task(nextId++, "Osta maitoa", "Laktoositon", LocalDate.now().plusDays(1)),
             Task(nextId++, "Tee viikko 3", "MVVM", LocalDate.now().plusDays(2)),
