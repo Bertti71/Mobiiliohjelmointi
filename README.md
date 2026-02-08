@@ -66,10 +66,10 @@ StateFlow on tapa säilyttää ja välittää sovelluksen tila. Kun tila muuttuu
 
 ## Week4 – Navigointi Jetpack Composessa
 
-###Week4-tehtävässä sovellukseen lisättiin navigointi Jetpack Composella käyttäen Single-Activity-arkkitehtuuria.  
-Sovelluksen näkymät on toteutettu Composable-funktioina, joiden välillä siirrytään Navigation-kirjaston avulla.
--Navigointi on toteutettu NavControllerin ja NavHostin avulla.  
--NavHost määrittelee sovelluksen reitit (Home, Calendar, Settings) ja NavController huolehtii näkymien välisestä siirtymisestä sekä back-napin toiminnasta.
--HomeScreen ja CalendarScreen käyttävät samaa TaskViewModelia, jolloin tehtävien tila ja muutokset pysyvät synkronoituna näkymien välillä.
--CalendarScreen esittää tehtävät kalenterimaisesti ryhmittelemällä ne dueDate-kentän perusteella.
--Tehtävien lisääminen ja muokkaaminen hoidetaan AlertDialog-komponentilla, ei erillisillä navigaatioruuduilla, mikä pitää navigaatiorakenteen selkeänä ja yksinkertaisena.
+###Week4-tehtävässä sovellukseen lisättiin navigointi Jetpack Composella käyttäen Single-Activity-arkkitehtuuria
+- Sovelluksen näkymät on toteutettu Composable-funktioina, joiden välillä siirrytään Navigation-kirjaston avull
+- Navigointi on toteutettu NavControllerin ja NavHostin avulla
+- NavHost määrittelee sovelluksen reitit (Home, Calendar, Settings) ja NavController huolehtii näkymien välisestä siirtymisestä sekä back-napin toiminnasta
+- HomeScreen ja CalendarScreen käyttävät samaa TaskViewModelia, jolloin tehtävien tila ja muutokset pysyvät synkronoituna näkymien välillä
+- CalendarScreen esittää tehtävät kalenterimaisesti ryhmittelemällä ne dueDate-kentän perusteella
+- Tehtävien lisääminen ja muokkaaminen hoidetaan AlertDialog-komponentilla, ei erillisillä navigaatioruuduilla, mikä pitää navigaatiorakenteen selkeänä ja yksinkertaisena
