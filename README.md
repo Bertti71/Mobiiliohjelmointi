@@ -43,7 +43,7 @@ Sovellus ajetaan Android Studiossa emulaattorilla tai Android-laitteella.
 
 ## Week3 - 
 
-###Toteutetut ominaisuudet
+### Toteutetut ominaisuudet
 - MVVM-rakenne:
 - Model: Task-dataluokka
 - View: HomeScreen ja DetailDialog (Compose UI)
@@ -53,7 +53,7 @@ Sovellus ajetaan Android Studiossa emulaattorilla tai Android-laitteella.
 - Tehtävien muokkaus ja poisto DetailDialogissa
 - Selkeä kerrosrakenne: model, view, viewmodel
 
-###MVVM ja StateFlow
+### MVVM ja StateFlow
 - ViewModel hallitsee sovelluksen tilaa ja liiketoimintalogiikkaa
 - UI kuuntelee ViewModelin tilaa ja päivittyy automaattisesti
 - StateFlow välittää tilan muutokset käyttöliittymälle
@@ -66,7 +66,7 @@ StateFlow on tapa säilyttää ja välittää sovelluksen tila. Kun tila muuttuu
 
 ## Week4 – Navigointi Jetpack Composessa
 
-###Week4-tehtävässä sovellukseen lisättiin navigointi Jetpack Composella käyttäen Single-Activity-arkkitehtuuria
+### Week4-tehtävässä sovellukseen lisättiin navigointi Jetpack Composella käyttäen Single-Activity-arkkitehtuuria
 - Sovelluksen näkymät on toteutettu Composable-funktioina, joiden välillä siirrytään Navigation-kirjaston avull
 - Navigointi on toteutettu NavControllerin ja NavHostin avulla
 - NavHost määrittelee sovelluksen reitit (Home, Calendar, Settings) ja NavController huolehtii näkymien välisestä siirtymisestä sekä back-napin toiminnasta
